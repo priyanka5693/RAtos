@@ -408,7 +408,7 @@ ui <- dashboardPage(
       tabItem(tabName = "SVMmodel",
               fluidRow(
                 box(title = "What is this?", status = "primary", solidHeader = TRUE,width = 12,
-                    tags$p("In order to move towards a more advanced model, we use SVM (Support Vector Machines).")
+                    tags$p("In order to move towards a more advanced model, we use SVM (Support Vector Machines).SMOTE can only be used with numeric data.")
                 )
               ),
               fluidRow(
