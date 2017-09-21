@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\n############################################################\n# Title: Data Analytics App Demo for the Atos Innovatos 2017 event\n# \n# Author: Marcel van den Bosch <marcel.vandenbosch@atos.net>\n# Date: 07-Mar-2017\n#\n# Copyright 2017: Atos Consulting & Atos Codex\n# \n# Description: In this app we demonstrate the use of\n# analytics in a semiconductor manufacturing case\n############################################################\n\n\n# This is used to start the app\nlibrary(shiny)\nrunApp()\n\n\n\n",
+    "created" : 1505318798265.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2868354146",
+    "id" : "5CDE6D1A",
+    "lastKnownWriteTime" : 1504778828,
+    "last_content_update" : 1504778828,
+    "path" : "F:/Shekhar/AtosInnovatos2017-master/Atos_Innovatos2017.R",
+    "project_path" : "Atos_Innovatos2017.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
