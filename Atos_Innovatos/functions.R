@@ -4,6 +4,10 @@
 # Date: 08-Mar-2017
 # Author: Marcel van den Bosch <marcel.vandenbosch@atos.net>
 ############################################################
+
+
+
+###### Load all Packages which we are going to use.
 library(shinyBS)
 library(sm)
 library(pastecs)
@@ -18,6 +22,15 @@ options(shiny.maxRequestSize=30*1024^2)
 
 
 
+
+
+
+
+
+
+
+#####  Here Load data from dataset which is selected by user,Using Upload dataset tab. This function returns data.
+
 loadData1 <- function(file1,header,sep,quote)
 {
   data <- read.csv(file1,header=header,sep = sep,quote = quote)
@@ -28,11 +41,17 @@ loadData1 <- function(file1,header,sep,quote)
 
 
 
+#### Here Taking all coloumns of dataset into vector.this is used for user to selecting categorical coloumn
+####from the list of coloumns of dataset which is returned by this function
+
 all_column <- function()
 {
   allcolumn <- names(data)
 }
 
+
+
+#### Here extracting coloumns from all coloumns of dataset which has integer and numeric class.
 
 all_coloumn1 <- function()
 {
@@ -54,6 +73,9 @@ all_coloumn1 <- function()
 }
 
 
+####.Here we plotting the graph , The first graph is a standard histogram of all the values using the Hist function . In the second graph, the
+#### we compared density between levels of categorical coloumn using  sm.density.compare.
+
 
 plotDensity <- function(colname,colname1)
 {
@@ -72,6 +94,8 @@ plotDensity <- function(colname,colname1)
 }
 
 
+
+#### In the graph below the number of levels of categorical coloumn are shown for this analysis case.so we will know that how many levels of categorical coloumn and their ratio.
 plotCaseStats <- function(col_name)
 {
 
@@ -86,6 +110,8 @@ plotCaseStats <- function(col_name)
 }
 
 
+
+### here this function gives us summary of whole data.In summary we can see min,max,range median,mean,var,standard deviation,coef. variation
 createSummaryTable <- suppressWarnings(function()
 {
   v1 <- c()
@@ -110,6 +136,11 @@ createSummaryTable <- suppressWarnings(function()
 }
 )
 
+
+
+
+### Here this function is used for calculating correlation between variables.
+###In the correlogram  we compared the correlation of all variables in our dataset.Here for this function we pass number of variables so according to that it plotted correlogram for this number of variable.
 plotCorrGram <- function(no_cols)
 {
   
@@ -147,6 +178,10 @@ if (no_cols > ncol(data_value))
 }
 
 
+
+
+### Here for this function we need to pass data and number of varibles we want for further implementation.
+###This function returns important features from dataset and it require entopy package for calculating importance of each variable .On the basis of those variables we can implement SVM ,random forest and decision tree.
 findTop100Features <- function(input_data,featuresno)
 {
   
