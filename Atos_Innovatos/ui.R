@@ -84,20 +84,33 @@ ui <- dashboardPage(
               ),
               fluidRow(
                 box(title = "About this demo", status = "primary", solidHeader = TRUE,width = 12,
-                    tags$p("A complex modern semi-conductor manufacturing process is normally under consistent surveillance via the monitoring of signals/variables collected from sensors and or process measurement points. The sensors monitor the process and production lines which sometimes lead to failure."), 
-                    tags$p("Therefore, the question is how to predict the failures in early stages in production line using sensory information?"),
+                    tags$p("This demo can be used for analysis of categorical data set. This provides validation so user can choose files with extension .csv or .txt or .xlsx In this demo we have provided different functionalities like:"), 
+                    tags$p(tags$p("   1.	The user can select Categorical Variable  for analysis.")),
+                       tags$p("   2.	It provides Rebalancing and summary about the dataset ."),
+                            tags$p("   3.	Also it helps to visualize graphs by plotting Histogram, Correlogram, Barplot  for better understanding of  the dataset , so from these  we  come to know about the correlation between different variables and density between levels of categorical value."),
+                           tags$p("   4.	Different algorithms are used such as Decision Tree, Random Forest And  Support Vector Machine."),
+                    
+                    
+                    tags$p("Example-"),
+                    tags$p("Consider the semi-conductor use case."),
                     tags$div(tags$p(" ")),
                     tags$div(align="center",
                              img(src="resources/semicon_mfg_picture.jpg", align="center")
-                    ),tags$div(tags$p(" "))
+                    ),tags$div(tags$p(" ")),
+                    tags$p("A complex modern semi-conductor manufacturing process is normally under consistent surveillance via the monitoring of signals/variables collected from sensors and or process measurement points. However, not all of these signals are equally valuable in a specific monitoring system. The measured signals contain a combination of useful information, irrelevant information as well as noise. The sensors monitor the process and production lines which sometimes lead to failure."),
+                   
+                    
+                     tags$p("In this dataset FAIL is categorical variable . Using this variable we have performed different functionality on dataset like Rebalancing and implemented algorithms such  as Decision Tree, Random Forest And  Support Vector Machine it is helpful for prediction and better accuracy.")
+                  
+                  
+                    
                 )
               ),
               fluidRow(
                 box(title = "About the dataset", status = "primary", solidHeader = TRUE,width = 12,
-                    tags$p("The demo is based on the SECOM dataset (McCann & Johnston, 2008). This is publicly available data from a semi-conductor manufacturing process."),
-                    tags$p("A complex modern semi-conductor manufacturing process is normally under consistent surveillance via the monitoring of signals/variables collected from sensors and or process measurement points. However, not all of these signals are equally valuable in a specific monitoring system. 
-                           The measured signals contain a combination of useful information, irrelevant information as well as noise."),
-                    tags$p("The data consists of 2 files the dataset file SECOM consisting of 1567 examples each with 591 features a 1567 x 591 matrix and a labels file containing the classifications and date time stamp for each example.")
+                    tags$p("The demo is based on Categorical dataset .In this application there is functionality for user to upload   dataset ."),
+                    tags$p("We have made this application generic so it will work for any Categorical dataset for classification.")
+                    
                     
                     )
               )
@@ -167,21 +180,21 @@ ui <- dashboardPage(
                 htmlOutput("dat"),
                 box(title = "Select Column", status = "primary", solidHeader = TRUE, width = 12,
                     uiOutput("DataSelectInput"),
-                    actionButton('btnCatData', label="Submit", icon = icon("ok", lib = "glyphicon")),
-                    shinyjs::useShinyjs(),
+                    actionButton('btnCatData', label="Submit", icon = icon("ok", lib = "glyphicon"))
+                    #shinyjs::useShinyjs(),
                     #js function to reset a button, variableName is the button name whose value we want to reset
-                    tags$script("Shiny.addCustomMessageHandler('resetInputValue', function(variableName){
-                Shiny.onInputChange(variableName, null);
-                });
-                "),
-                   bsModal("modalnew", "Change name", "btnCatData", size = "small",
-                            HTML("Do you want to continue?"),
-                            actionButton("BUTyes", "Yes"),
-                            actionButton("BUTno", "No")
-                    )
-                )),
+                   # tags$script("Shiny.addCustomMessageHandler('resetInputValue', function(variableName){
+               # Shiny.onInputChange(variableName, null);
+              #  });
+               # "),
+                 #  bsModal("modalnew", "Change name", "btnCatData", size = "small",
+                         #   HTML("Do you want to continue?"),
+                         #   actionButton("BUTyes", "Yes"),
+                       #     actionButton("BUTno", "No")
+                 #   )
+              )),
               fluidRow(
-                box(title = "Source Data", status = "primary", solidHeader = TRUE, width = 12,
+               box(title = "Source Data", status = "primary", solidHeader = TRUE, width = 12,
                     dataTableOutput('contents')
                 )
               )
@@ -408,7 +421,7 @@ ui <- dashboardPage(
       tabItem(tabName = "SVMmodel",
               fluidRow(
                 box(title = "What is this?", status = "primary", solidHeader = TRUE,width = 12,
-                    tags$p("In order to move towards a more advanced model, we use SVM (Support Vector Machines).SMOTE can only be used with numeric data.")
+                    tags$p("In order to move towards a more advanced model, we use SVM (Support Vector Machines).\n SMOTE requires numeric data only.")
                 )
               ),
               fluidRow(
@@ -416,7 +429,7 @@ ui <- dashboardPage(
                 box(title = "Running SVM", status = "primary", solidHeader = TRUE,width = 12,
                     sliderInput("intNoCorrVars2","Number of variables:",min = 2,max = 100,value = 30,step = 1),
                     checkboxInput("chkSVMWithSMOTE",label="First run SMOTE to balance classes",value = FALSE),
-                    checkboxInput("chkSVMWithTOPFeatures",label="Only use the 100 best features in model",value = FALSE),
+                    #checkboxInput("chkSVMWithTOPFeatures",label="Only use the 100 best features in model",value = FALSE),
                     checkboxInput("chkSVMWithTest",label="Split in Training/Test set",value = FALSE),
                     actionButton('btnRunSVM', label="Run SVM", icon = icon("ok", lib = "glyphicon"))
                 )
