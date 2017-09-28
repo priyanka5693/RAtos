@@ -2,8 +2,8 @@
 # Title: Data Analytics App Demo for the Atos Innovatos 2017 event
 # File: UI.R
 # 
-# Author: Marcel van den Bosch <marcel.vandenbosch@atos.net>
-# Date: 07-Mar-2017
+# Author:<priyanka.pandit@atos.net>
+# Date: 28-september-2017
 #
 # Copyright 2017: Atos Consulting & Atos Codex
 # 
