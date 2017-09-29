@@ -205,7 +205,7 @@ ui <- dashboardPage(
       tabItem(tabName = "CaseOverview",
               fluidRow(
                 box(title = "What is this?", status = "primary", solidHeader = TRUE,width = 12,
-                    tags$p("In the graph below the number of OK and FAILED wafers are shown for this analysis case")
+                    tags$p("In the graph below the number of levels of categorical variable are shown for this analysis case")
                 )),
              # fluidRow(
                # box(title = "Select Column", status = "primary", solidHeader = TRUE,width = 10
