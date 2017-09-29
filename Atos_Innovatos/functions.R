@@ -104,7 +104,7 @@ plotCaseStats <- function(col_name)
   
   linch <-  max(strwidth(out, "inch")+0.7, na.rm = TRUE)
   par(mai=c(1.02,linch,0.82,0.42))
-  x <- barplot(out,horiz = TRUE,cex.names=0.9,las=1,xlab=paste("# of Wafers"),xlim=c(0,max(out,na.rm=TRUE)+50),col="cornflowerblue")
+  x <- barplot(out,horiz = TRUE,cex.names=0.9,las=1,xlab=paste("# number of observations"),xlim=c(0,max(out,na.rm=TRUE)+50),col="cornflowerblue")
   text(out+pmin((5+out*0.7),20),x,labels=round(out), col="black",cex=0.75)
   
 }
