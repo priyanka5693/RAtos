@@ -53,7 +53,7 @@ This informal evening is to challenge your thinking about the forces that will s
 
 ![Screenshot 1](https://github.com/priyanka5693/RAtos/tree/master/Atos_Innovatos/www/welcome.png)
 
-![Screenshot 2](https://github.com/mvdbosch/AtosInnovatos2017/blob/master/www/app_screenshot2.jpg)
+![Screenshot 2](https://github.com/priyanka5693/RAtos/tree/master/Atos_Innovatos/www/app_screenshot2.jpg)
 
 ![Screenshot 3](https://github.com/mvdbosch/AtosInnovatos2017/blob/master/www/app_screenshot3.jpg)
 
