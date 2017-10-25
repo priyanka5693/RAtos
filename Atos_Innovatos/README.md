@@ -43,7 +43,7 @@ Innovatos Plaza 2017, our yearly event for all Atos employees and their direct c
 It is the title of the trends report Journey 2020 of the Atos Scientific Community with Atos’ vision on the changing world and its impact on business, society and technology. 
 This informal evening is to challenge your thinking about the forces that will shape business during the next few years.
 
-# More information
+
 
 
 
