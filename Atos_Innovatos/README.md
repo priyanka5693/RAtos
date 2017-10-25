@@ -23,7 +23,7 @@ docker pull 4134/atos_innovation
 docker run -p 3838:3838 4134/atos_innovation
 ```
 
-You can now point your browser to the http://*ipadres_or_hostname*:3838/RAtos/Atos-Innovatos/
+You can now point your browser to the http://*ipadres_or_hostname*:3838/RAtos/Atos_Innovatos/
 
 # Missing packages?
 
