@@ -6,24 +6,24 @@ The app is based on a public dataset and is ONLY used for (public) demo purposes
 This app is based on R & Shiny. It has been designed to run from a local Rstudio installation on a laptop, as it is presented in the demo. 
 In case you want to run this app on a Shiny server, some small modifications will need to happen.
 
-* Please clone this github repository to your local machine ( https://github.com/mvdbosch/AtosInnovatos2017.git )
+* Please clone this github repository to your local machine ( https://github.com/priyanka5693/RAtos.git)
 
 * Open the  project from your Rstudio environment.
 
 * Open the file **"Atos_Innovatos2017.R"** and click on the **"Run App"** button on the top right.
 
-![How to run the app](https://github.com/mvdbosch/AtosInnovatos2017/blob/master/www/HowToRun.jpg)
+
 
 # Running the docker container image
 You can pull the latest docker image for this demo app from my private registry. In addition, you can
 also build you own docker image, using the Dockerfile provided in the docker directory.
 
 ```Bash
-docker pull registry.marcel.im/atosanalyticsapp
-docker run -p 3838:3838 registry.marcel.im/atosanalyticsapp
+docker pull 4134/atos_innovation
+docker run -p 3838:3838 4134/atos_innovation
 ```
 
-You can now point your browser to the http://*ipadres_or_hostname*:3838/AtosInnovatos2017/
+You can now point your browser to the http://*ipadres_or_hostname*:3838/RAtos/Atos-Innovatos/
 
 # Missing packages?
 
@@ -45,13 +45,13 @@ This informal evening is to challenge your thinking about the forces that will s
 
 # More information
 
-* Check out the Atos Innovatos Plaza 2017 [slides](https://github.com/mvdbosch/AtosInnovatos2017/blob/master/www/Innovatos%202017%20-%20Codex%20and%20Data%20Analytics%20in%20Manufacturing%20v0.2.pdf)
 
-* Contact me at: marcel.vandenbosch@atos.net
+
+
 
 # Some screenshots
 
-![Screenshot 1](https://github.com/mvdbosch/AtosInnovatos2017/blob/master/www/app_screenshot1.jpg)
+![Screenshot 1](https://github.com/priyanka5693/RAtos/tree/master/Atos_Innovatos/www/welcome.png)
 
 ![Screenshot 2](https://github.com/mvdbosch/AtosInnovatos2017/blob/master/www/app_screenshot2.jpg)
 
