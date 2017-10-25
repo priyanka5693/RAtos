@@ -1,6 +1,6 @@
 FROM centos:latest
 
-## This handle reaches Marcel van den Bosch
+
 MAINTAINER "priyanka pandit" priyanka.pandit@atos.net
 
 ## Add EPEL repo
