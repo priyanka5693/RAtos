@@ -1,8 +1,8 @@
 FROM centos:latest
 
 <<<<<<< HEAD
-## This handle reaches Marcel van den Bosch
-MAINTAINER "Marcel van den Bosch" marcel.vandenbosch@atos.net
+
+MAINTAINER "priyanka pandit" priyanka.pandit@atos.net
 
 ## Add EPEL repo
 RUN yum install -y epel-release
