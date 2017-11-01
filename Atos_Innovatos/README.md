@@ -6,24 +6,40 @@ The app is based on a public dataset and is ONLY used for (public) demo purposes
 This app is based on R & Shiny. It has been designed to run from a local Rstudio installation on a laptop, as it is presented in the demo. 
 In case you want to run this app on a Shiny server, some small modifications will need to happen.
 
+<<<<<<< HEAD
 * Please clone this github repository to your local machine ( https://github.com/mvdbosch/AtosInnovatos2017.git )
+=======
+* Please clone this github repository to your local machine ( https://github.com/priyanka5693/RAtos.git)
+>>>>>>> 07fb72185c9f0fd9af128cbf13057c00c4349a55
 
 * Open the  project from your Rstudio environment.
 
 * Open the file **"Atos_Innovatos2017.R"** and click on the **"Run App"** button on the top right.
 
+<<<<<<< HEAD
 ![How to run the app](https://github.com/mvdbosch/AtosInnovatos2017/blob/master/www/HowToRun.jpg)
+=======
+
+>>>>>>> 07fb72185c9f0fd9af128cbf13057c00c4349a55
 
 # Running the docker container image
 You can pull the latest docker image for this demo app from my private registry. In addition, you can
 also build you own docker image, using the Dockerfile provided in the docker directory.
 
 ```Bash
+<<<<<<< HEAD
 docker pull registry.marcel.im/atosanalyticsapp
 docker run -p 3838:3838 registry.marcel.im/atosanalyticsapp
 ```
 
 You can now point your browser to the http://*ipadres_or_hostname*:3838/AtosInnovatos2017/
+=======
+docker pull 4134/atos_innovation
+docker run -p 3838:3838 4134/atos_innovation
+```
+
+You can now point your browser to the http://*ipadres_or_hostname*:3838/RAtos/Atos_Innovatos/
+>>>>>>> 07fb72185c9f0fd9af128cbf13057c00c4349a55
 
 # Missing packages?
 
@@ -43,6 +59,7 @@ Innovatos Plaza 2017, our yearly event for all Atos employees and their direct c
 It is the title of the trends report Journey 2020 of the Atos Scientific Community with Atos’ vision on the changing world and its impact on business, society and technology. 
 This informal evening is to challenge your thinking about the forces that will shape business during the next few years.
 
+<<<<<<< HEAD
 # More information
 
 * Check out the Atos Innovatos Plaza 2017 [slides](https://github.com/mvdbosch/AtosInnovatos2017/blob/master/www/Innovatos%202017%20-%20Codex%20and%20Data%20Analytics%20in%20Manufacturing%20v0.2.pdf)
@@ -58,3 +75,12 @@ This informal evening is to challenge your thinking about the forces that will s
 ![Screenshot 3](https://github.com/mvdbosch/AtosInnovatos2017/blob/master/www/app_screenshot3.jpg)
 
 ![Screenshot 4](https://github.com/mvdbosch/AtosInnovatos2017/blob/master/www/app_screenshot4.jpg)
+=======
+
+
+
+
+
+
+
+>>>>>>> 07fb72185c9f0fd9af128cbf13057c00c4349a55
