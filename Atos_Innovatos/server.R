@@ -56,7 +56,7 @@ server <- function(input, output,session) {
             'text/plain',
             'csv',
             'tsv'
-          ),"Wrong File Format!!! \n Please upload a csv file"))
+          ),"Wrong File Format!!! \n Please upload a csv,txt,xlxs file"))
         data <<- loadData1(input$file1$datapath,header = input$header,sep = input$sep, quote = input$quote);
         })
         ##########################################
