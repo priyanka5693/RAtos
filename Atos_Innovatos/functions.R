@@ -2,8 +2,8 @@
 ############################################################
 # Supporting functions file for the Innovatos 2017 demo app
 
-# Date: 08-Mar-2017
-# Author: Marcel van den Bosch <marcel.vandenbosch@atos.net>
+
+
 ############################################################
 
 
