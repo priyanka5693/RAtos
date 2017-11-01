@@ -32,8 +32,8 @@ server <- function(input, output,session) {
   observe({
 
     
-    # For performance reasons, only execute if the tab is actually opened by the user.
-    # Logic behind the data table overview tab
+    #Using this tab user can select any dataset for analysis.validation provided here to check its format. so dataset is in only .csv,.txt . Otherwise it gives error message it is in wrong format
+    
     suppressWarnings(if(input$tab == "Upload")
     {
       
@@ -42,6 +42,7 @@ server <- function(input, output,session) {
         ##########################################
         output$validation <- renderPrint({
           data <<- NULL;
+   
         File <- input$file1        
         #catches null exception
         if (is.null(File))
@@ -66,6 +67,9 @@ server <- function(input, output,session) {
     )
     
     
+    
+    ## Here we can see whole data that was uploaded.if There is no any data set uploaded then it gives alert to selecting data.
+    ##Also here we provided option to select categorical coloumn.backgroundly check this variable have class factor or not.Here it ask for user to confirmation for you are continue with this varible or not.
     if (input$tab == 'Data')
     {
       # input$file1 will be NULL initially. After the user selects
@@ -88,32 +92,53 @@ server <- function(input, output,session) {
       output$DataSelectInput <- renderUI({
         dataNames <- all_column()
         selectInput("datacat", "Choose Option:",dataNames) 
+       
       })
+      
+     
       observeEvent(input$btnCatData, {
        # yVar <<- input$datacat;
       #  data[,yVar] <<- as.factor(data[,yVar]);
      # )}
-      values <- reactiveValues()
-     values$name <- input$datacat;
-      observeEvent(input$BUTyes, {
-        toggleModal(session, "modalnew", toggle = "close")
-        yVar <<- values$name;
-        data[,yVar] <- as.factor(data[,yVar])
+    #  values <- reactiveValues()
+    # values$name <- input$datacat;
+    #  observeEvent(input$BUTyes, {
+      #  toggleModal(session, "modalnew", toggle = "close")
+        yVar <<- input$datacat;
+        #data[,yVar] <- as.factor( data[,yVar])
+        
+      
+        if(class(data[,yVar]) == 'integer' || class(data[,yVar]) == 'numeric' )
+        {
+          
+          shinyjs::alert("WARNING: Submitting this will convert numerical data to categorical.")
+        }
+        
+        if(nlevels( as.factor(data[,yVar])) > 10 )
+        {
+          shinyjs::alert("ERROR: Number of levels exceeded for this coloumn. Please select valid coloumn.")
+          
+        }
+      
+        #data[,yVar] <- as.factor(data[,yVar])
       })
       
-      observeEvent(input$BUTno, {
-        toggleModal(session, "modalnew", toggle = "close")
-        updateTextInput(session, "newName", value=values$name)
-      })
+    #  observeEvent(input$BUTno, {
+        #toggleModal(session, "modalnew", toggle = "close")
+       # updateTextInput(session, "newName", value=values$name)
+     # })
       
-      session$sendCustomMessage(type = 'resetInputValue', message =  "btnCatData")
+      #session$sendCustomMessage(type = 'resetInputValue', message =  "btnCatData")
       
       }
-      )}
+
     }
     
     
     # Logic behind the summary statistcs tab
+    
+    
+    
     if (input$tab == 'ExploreSummary')
     {
       if(is.null(data))
@@ -153,6 +178,9 @@ server <- function(input, output,session) {
       }
     }
     
+    
+    # Logic behind the correlation tab 
+    ## for plotting correlation between variables we pass number of variable to plotCorrGram.
     if (input$tab == 'ExploreCorrelation')
     {
       if(is.null(data))
@@ -190,6 +218,9 @@ server <- function(input, output,session) {
    
     }
   
+    
+    
+    ## logic behind rebalance tab.
     if(input$tab == 'Rebalance')  
     {
       if(is.null(data))
@@ -203,11 +234,20 @@ server <- function(input, output,session) {
   })
   
  
+  
+  
+  ### after click on this button graph shows status of observation for level of categorical coloumn after smote and befor smote.
+  ###here we  are trying to balance the observation of levels of categorical varible .so there is no shortage of values from dataset for prediction using multiple algorithm . we use this functionality for random forest,decision tree and SVM.This is used for accuracy purpose.
   observeEvent(input$btnRunSMOTE, {
     if(!is.null(data))
     {
-    data[,yVar] <- as.factor(data[,yVar])
-    data_old <- data
+      
+    #- data[,yVar] <- as.factor(data[,yVar])
+   #- data_old <- data
+      
+      data_old <- data
+      
+      data_old[,yVar] <- as.factor(data_old[,yVar])
     v1 <- c()
     for(i in 1: length(data_old))
     {
@@ -224,13 +264,15 @@ server <- function(input, output,session) {
     
     
     data_old <- subset(data_old,select=v1);
-    table(data[,yVar]) #Statistics before 
+   #- table(data[,yVar]) #Statistics before 
+    table(data_old[,yVar])
     names(data_old)[names(data_old) == yVar] <- "yVar"
     data_balanced <- SMOTE(form = yVar ~ ., data = data_old, perc.over = 500, perc.under = 120)
     names(data_balanced)[names(data_balanced) == "yVar"] <- yVar
     names(data_old)[names(data_old) == "yVar"] <- yVar
     output$Plot_SMOTE_Old_CaseStats <- renderPlot({ 
-      out <- table(data[,yVar])
+      #-out <- table(data[,yVar])
+      out <- table(data_old[,yVar])
       linch <-  max(strwidth(out, "inch")+0.7, na.rm = TRUE)
       par(mai=c(1.02,linch,0.82,0.42))
       x <- barplot(out,horiz = TRUE,cex.names=0.9,las=1,xlab=paste("# of cases"),xlim=c(0,max(out,na.rm=TRUE)+50),col="cornflowerblue",main = 'Before SMOTE')
@@ -262,7 +304,7 @@ server <- function(input, output,session) {
   
   
   
-  
+  #### This is used for decision tree algorithm.here we used Rpart function.
   observeEvent(input$btnRunRPart, {
     if(is.null(data))
     {
@@ -275,14 +317,18 @@ server <- function(input, output,session) {
    if(!is.null(data))
    {
      isolate({
-       data[,yVar] <- as.factor(data[,yVar])
+       
+       data_old <- data
+       ## --data[,yVar] <- as.factor(data[,yVar])
+       
+       data_old[,yVar] <- as.factor(data_old[,yVar])
       
       if (input$chkRPartWithSMOTE == TRUE )
       {
-      ####pasted part
+     
         
       
-        data_old <- data
+        #--data_old <- data
         v1 <- c()
         for(i in 1: length(data_old))
         {
@@ -299,13 +345,14 @@ server <- function(input, output,session) {
         
         
         data_old <- subset(data_old,select=v1);
-        table(data[,yVar]) #Statistics before 
+       ##-- table(data[,yVar]) #Statistics before 
+        table(data_old[,yVar])
         names(data_old)[names(data_old) == yVar] <- "yVar"
         data_balanced <- SMOTE(form = yVar ~., data = data_old, perc.over = 500,perc.under = 120)
         names(data_balanced)[names(data_balanced) == "yVar"] <- yVar
         names(data_old)[names(data_old) == "yVar"] <- yVar
       } else {
-        data_balanced <-data.table(copy(data))
+        data_balanced <-data.table(copy(data_old))
       }
       
       
@@ -333,6 +380,9 @@ server <- function(input, output,session) {
   })
   
   
+  
+  
+  ### here is the logic for random forest algorithm here we use functionality like smote,splitting data and filling missing value.
   observeEvent(input$btnRunRF, {
     # Below code implements the RandomForest modelling functionality
     #data[,yVar] <- as.factor(data[,yVar])
@@ -347,20 +397,33 @@ server <- function(input, output,session) {
     if (input$chkRPartWithSMOTE == TRUE )
     {
       
-        data[,yVar] <- as.factor(data[,yVar])
+      data_old1 <- data
+      
+        ##--data[,yVar] <- as.factor(data[,yVar])
+      data_old1[,yVar] <- as.factor(data_old1[,yVar])
     isolate({
       
       
       if (input$chkRFWithTest == TRUE)
       {
         # Do a 75/25 split
-        sample = sample.split(data[,yVar], SplitRatio = .75)
-        data_train = subset(copy(data), sample == TRUE)
-        data_test = subset(copy(data), sample == FALSE)
+       ##-- sample = sample.split(data[,yVar], SplitRatio = .75)
+       ##--- data_train = subset(copy(data), sample == TRUE)
+      ##--  data_test = subset(copy(data), sample == FALSE)
+        sample = sample.split(data_old1[,yVar], SplitRatio = .75)
+     data_train = subset(copy(data_old1), sample == TRUE)
+        data_test = subset(copy(data_old1), sample == FALSE)
+        
       } else {
         # Just make both sets the same
-        data_train <- copy(data);
-        data_test <- copy(data);
+        
+       ##- data_train <- copy(data);
+       ##-- data_test <- copy(data);
+        
+        data_train <- copy(data_old1);
+        data_test <- copy(data_old1);
+        
+        
       }
       
       
@@ -388,8 +451,11 @@ server <- function(input, output,session) {
         data_old <- subset(data_old,select=v1);
         
         print(yVar)
-        table(data[,yVar]) #Statistics before 
-        print(table(data[,yVar]))
+       ## -- table(data[,yVar]) #Statistics before 
+       ##-- print(table(data[,yVar]))
+        
+        table(data_old1[,yVar]) #Statistics before 
+       print(table(data_old1[,yVar]))
         
         names(data_old)[names(data_old) == yVar] <- "yVar"
         data_balanced <- SMOTE(form = yVar ~., data = data_old, perc.over = 500,perc.under = 120)
@@ -470,11 +536,13 @@ server <- function(input, output,session) {
     
   })
   
-  ###########remaining
+
   
   observeEvent(input$btnRunFeature, {
     # Code below calls the function to find the TOP100 most promising features
-    data[,yVar] <- as.factor(data[,yVar])
+    data_old <- data
+   ##-- data[,yVar] <- as.factor(data[,yVar])
+    data_old[,yVar] <- as.factor(data_old[,yVar])
     output$FeatureTable = renderDataTable({
       if(is.null(data))
       {
@@ -487,7 +555,7 @@ server <- function(input, output,session) {
         if(!is.null(data))
         {
       isolate({
-        datatable(suppressWarnings(findTop100Features(copy(data),input$intNoCorrVars1))) 
+        datatable(suppressWarnings(findTop100Features(copy(data_old),input$intNoCorrVars1))) 
       })
         }
     })
@@ -496,8 +564,10 @@ server <- function(input, output,session) {
   })
   
   
+  
+  
   observeEvent(input$btnRunSVM, {
-    # This code implements the SVM modelling functionality
+    # This code implements the SVM modelling functionality. it is advanced kind of algorithm .This is supervised learning model
     if(is.null(data))
     {
       output$svm <- renderText({
@@ -507,11 +577,17 @@ server <- function(input, output,session) {
     }
     if(!is.null(data))
     {
-      data[,yVar] <- as.factor(data[,yVar])
+      
+      
+      ## change below to line
+      
+      data_old <- data
+     # ---data[,yVar] <- as.factor(data[,yVar])
+      data_old[,yVar] <- as.factor(data_old[,yVar])
     
       isolate({
         v1 <- c()
-        data_old <- data
+        # --- data_old <- data
         for(i in 1: length(data_old))
         {
           
@@ -530,14 +606,12 @@ server <- function(input, output,session) {
         ######################
         if (input$chkSVMWithTest == TRUE)
         {
-          # Do a 75/25 split
+          # Do a 75/25 split.75 percent of whole data goes into training set and remaining it into testing set.Testing set used for prediction purpose.
           
           
          
-          
-          
-          
-          sample = sample.split( data_old[,yVar], SplitRatio = .75)
+      
+         sample = sample.split( data_old[,yVar], SplitRatio = .75)
           data_train = subset(copy(data_old), sample == TRUE)
           data_test = subset(copy(data_old), sample == FALSE)
         } else {
@@ -546,12 +620,12 @@ server <- function(input, output,session) {
           data_test <- copy(data_old);
         }
         
-        if (input$chkSVMWithTOPFeatures == TRUE)
-        {
+       # if (input$chkSVMWithTOPFeatures == TRUE)
+        #{
           top100_cols <- findTop100Features(data_train,input$intNoCorrVars2);
           
           top100_cols <- as.vector(top100_cols[,1])
-        }
+        #}
         
         if (input$chkSVMWithSMOTE == TRUE )
         {
@@ -561,8 +635,11 @@ server <- function(input, output,session) {
           
           
           print(yVar)
-          table(data[,yVar]) #Statistics before 
-          print(table(data[,yVar]))
+         ## -- table(data[,yVar]) #Statistics before 
+         ## -- print(table(data[,yVar]))
+          
+          table(data_old[,yVar]) #Statistics before 
+          print(table(data_old[,yVar]))
           
           names(data_old)[names(data_old) == yVar] <- "yVar"
           data_balanced <- SMOTE(form = yVar ~., data = data_old, perc.over = 500,perc.under = 120)
@@ -575,10 +652,10 @@ server <- function(input, output,session) {
           #data_balanced <- subset(data_balanced,select=-TIMESTAMP);
         }
         
-        if (input$chkSVMWithTOPFeatures == TRUE)
-        {
+       # if (input$chkSVMWithTOPFeatures == TRUE)
+        #{
           data_balanced <- subset(data_balanced,select=c(top100_cols,yVar));
-        }
+        #}
         
         columns.to.keep<-names(which(colMeans(is.na(data_balanced)) < 0.5)) # this removes those columns with more than 50% NULLs
         data_balanced<-subset(data_balanced,select = columns.to.keep) #the columns will stay which has less than 50% NAs
@@ -626,10 +703,10 @@ server <- function(input, output,session) {
         # NA's are not desired, as it hinders prediction.
         test_data[is.na(test_data)]<--9999 #just some random number that never happened in the data
         
-        if (input$chkSVMWithTOPFeatures == TRUE)
-        {
+       # if (input$chkSVMWithTOPFeatures == TRUE)
+        #{
           test_data<-subset(test_data,select = c(top100_cols));
-        }
+       # }
         
         test_data<-subset(test_data,select = setdiff(columns.to.keep,yVar)) #the columns will stay which has less than 50% NAs
         if(length(nzv) > 0)
@@ -647,7 +724,7 @@ server <- function(input, output,session) {
           isolate({
             cat("Started with options:\r\n")
             cat("* SMOTE : ", input$chkSVMWithSMOTE,"\r\n")
-            cat("* TOP100 Features : ",input$chkSVMWithTOPFeatures,"\r\n")
+            #cat("* TOP100 Features : ",input$chkSVMWithTOPFeatures,"\r\n")
             cat("* TEST/TRAINING SET : ",input$chkSVMWithTest,"\r\n")
             cat("---------------------------------------------------------\r\n")
             confusionMatrix(xtab)
