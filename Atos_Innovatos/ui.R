@@ -279,7 +279,7 @@ ui <- dashboardPage(
               fluidRow(
                 box(title = "What is this?", status = "primary", solidHeader = TRUE,width = 12,
                     tags$p("One of the key activities of Exploratory Data Analysis (EDA) is to investigate the correlation between variables. In the correlogram
-                           below we compared the correlation all all variables in our dataset.")
+                           below we compared the correlation all variables in our dataset.")
                     )
                 ),
               fluidRow(
